@@ -1,0 +1,17 @@
+import '@testing-library/jest-dom';
+
+if (!('matchMedia' in window)) {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: (query: string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: (): void => undefined,
+      removeListener: (): void => undefined,
+      addEventListener: (): void => undefined,
+      removeEventListener: (): void => undefined,
+      dispatchEvent: (): boolean => false,
+    }),
+  });
+}
