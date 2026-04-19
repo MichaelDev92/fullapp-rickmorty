@@ -41,6 +41,7 @@ export class CacheService {
   async invalidatePattern(pattern: string): Promise<number> {
     let deleted = 0;
     try {
+      // Use SCAN streaming to avoid blocking Redis on large keyspaces.
       const stream = this.redis.scanStream({ match: pattern, count: 100 });
       const pipeline = this.redis.pipeline();
       for await (const keys of stream) {

@@ -6,6 +6,7 @@ import { CharacterCard } from '../src/features/characters/components/CharacterCa
 import type { Character } from '../src/features/characters/types/character.types';
 
 function makeCharacter(overrides: Partial<Character> = {}): Character {
+  // Shared fixture to focus test cases on behavior, not setup noise.
   return {
     id: '1',
     externalId: 1,

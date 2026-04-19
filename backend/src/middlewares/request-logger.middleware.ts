@@ -8,6 +8,7 @@ export const requestLoggerMiddleware = pinoHttp({
     requestId: (req as { requestId?: string }).requestId,
   }),
   customLogLevel: (_req, res, err) => {
+    // Escalate log level based on response severity.
     if (err || res.statusCode >= 500) return 'error';
     if (res.statusCode >= 400) return 'warn';
     return 'info';

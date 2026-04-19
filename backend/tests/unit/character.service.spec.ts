@@ -7,6 +7,7 @@ import type { Character } from '../../src/modules/characters/models/character.mo
 import { CharacterService } from '../../src/modules/characters/services/character.service';
 
 function makeCharacter(partial: Partial<Character> = {}): Character {
+  // Character fixture factory used across service unit tests.
   return {
     id: 1,
     externalId: 1,

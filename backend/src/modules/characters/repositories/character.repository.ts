@@ -5,6 +5,7 @@ import type { ICharacterRepository } from '../interfaces/character.repository.in
 import { Character, CharacterCreationAttributes } from '../models/character.model';
 
 function buildWhere(filter?: CharacterFilterDto): WhereOptions {
+  // Build dynamic SQL WHERE clauses from optional GraphQL filters.
   const where: WhereOptions = {};
   if (!filter) return where;
 
@@ -56,6 +57,7 @@ export class CharacterRepository implements ICharacterRepository {
 
   async bulkUpsert(items: Array<CharacterCreationAttributes>): Promise<number> {
     if (items.length === 0) return 0;
+    // Upsert by unique key, updating mutable fields from latest API snapshot.
     const result = await Character.bulkCreate(items, {
       updateOnDuplicate: [
         'name',

@@ -13,6 +13,7 @@ export class CommentService implements ICommentService {
 
   @MeasureTime('CommentService.addComment')
   async addComment(input: AddCommentDto): Promise<CommentDto> {
+    // Validate parent character existence to avoid orphan comments.
     const character = await this.characterRepo.findById(input.characterId);
     if (!character) {
       throw new Error(`Character ${input.characterId} not found`);

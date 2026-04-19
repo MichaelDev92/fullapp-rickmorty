@@ -7,6 +7,7 @@ import { useCharactersStore } from '../src/features/characters/store/characters.
 
 describe('CharacterFilters', () => {
   beforeEach(() => {
+    // Reset zustand state between tests to avoid cross-test contamination.
     useCharactersStore.getState().resetFilter();
   });
 

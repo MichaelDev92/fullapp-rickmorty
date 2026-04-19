@@ -18,6 +18,7 @@ export function useTheme(): ThemeApi {
   const { theme, mode, setTheme, setMode, toggleMode } = useThemeStore();
 
   useEffect(() => {
+    // Sync global theme attributes so CSS variables react immediately.
     document.documentElement.setAttribute("data-theme", theme);
     document.documentElement.setAttribute("data-mode", mode);
   }, [theme, mode]);

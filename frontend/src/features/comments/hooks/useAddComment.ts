@@ -21,6 +21,7 @@ interface UseAddCommentResult {
 
 export function useAddComment(characterGraphQlId: string): UseAddCommentResult {
   const [mutate, { loading, error }] = useMutation<AddCommentData>(ADD_COMMENT_MUTATION, {
+    // Refetch character detail to append latest comments after mutation.
     refetchQueries: [
       {
         query: CHARACTER_QUERY,

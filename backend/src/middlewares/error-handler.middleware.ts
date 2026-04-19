@@ -8,6 +8,7 @@ export function errorHandlerMiddleware(
   res: Response,
   _next: NextFunction
 ): void {
+  // Normalize unexpected failures to a consistent JSON shape and preserve trace id.
   logger.error({ err, requestId: req.requestId }, 'Unhandled error');
   const status = (err as { status?: number }).status ?? 500;
   res.status(status).json({

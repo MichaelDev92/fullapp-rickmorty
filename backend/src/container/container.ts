@@ -10,6 +10,7 @@ type Entry<T> =
 const registry = new Map<Token, Entry<unknown>>();
 
 export function registerValue<T>(token: Token, value: T): void {
+  // Register already-built instances or primitives.
   registry.set(token, { kind: 'value', value });
 }
 
@@ -19,6 +20,7 @@ export function registerClass<T>(
   deps: Token[] = [],
   options: { singleton?: boolean } = {}
 ): void {
+  // Register class providers with explicit dependencies and singleton scope.
   registry.set(token, {
     kind: 'class',
     ctor,
@@ -32,6 +34,7 @@ export function registerFactory<T>(
   factory: Factory<T>,
   options: { singleton?: boolean } = {}
 ): void {
+  // Register factory providers for dynamic construction.
   registry.set(token, {
     kind: 'factory',
     factory,
@@ -40,6 +43,7 @@ export function registerFactory<T>(
 }
 
 export function resolve<T>(token: Token): T {
+  // Resolve providers recursively and cache instance when provider is singleton.
   const entry = registry.get(token) as Entry<T> | undefined;
   if (!entry) {
     throw new Error(`No provider registered for token: ${String(token)}`);

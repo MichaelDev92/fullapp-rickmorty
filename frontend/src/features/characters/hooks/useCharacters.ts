@@ -45,6 +45,7 @@ export function useCharacters(params: UseCharactersParams = {}): UseCharactersRe
   const filter = params.filter;
 
   const variables = useMemo<CharactersQueryVariables>(() => {
+    // Avoid sending empty filter object so backend applies default listing path.
     const base: CharactersQueryVariables = {
       sortByName,
       pagination: { page, pageSize },

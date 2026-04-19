@@ -44,6 +44,7 @@ function getServices(): {
   comments: ICommentService;
   favorites: IFavoriteService;
 } {
+  // Resolve services lazily from DI container per resolver execution.
   return {
     characters: resolve<ICharacterService>(TOKENS.CharacterService),
     comments: resolve<ICommentService>(TOKENS.CommentService),
@@ -124,6 +125,7 @@ export const characterResolvers = {
   },
 
   Character: {
+    // Map optional `type` to a display-friendly field in GraphQL response.
     occupation: (parent: CharacterDto): string => {
       return parent.type && parent.type.trim().length > 0 ? parent.type : '—';
     },

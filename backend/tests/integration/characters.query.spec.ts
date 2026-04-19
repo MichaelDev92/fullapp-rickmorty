@@ -10,6 +10,7 @@ import type { IFavoriteService } from '../../src/modules/characters/interfaces/f
 import type { GraphQLContext } from '../../src/types/graphql-context';
 
 function makeCharacter(overrides: Partial<CharacterDto> = {}): CharacterDto {
+  // Build reusable fixture to keep GraphQL test payloads concise.
   return {
     id: 1,
     externalId: 1,

@@ -7,10 +7,12 @@ import { registerCharactersDeps } from '../modules/characters/registers/characte
 import { registerValue, TOKENS } from './container';
 
 export function registerDeps(): void {
+  // Register shared infra dependencies before module-specific providers.
   registerValue(TOKENS.Logger, logger);
   registerValue(TOKENS.Sequelize, sequelize);
   registerValue(TOKENS.Redis, getRedisClient());
   registerValue(TOKENS.CacheService, new CacheService(getRedisClient(), logger));
 
+  // Register characters module repositories/services/resolvers dependencies.
   registerCharactersDeps();
 }

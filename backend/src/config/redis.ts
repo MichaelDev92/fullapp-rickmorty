@@ -6,6 +6,7 @@ import { logger } from './logger';
 let client: RedisClient | null = null;
 
 export function getRedisClient(): RedisClient {
+  // Keep a single Redis client instance for the whole process.
   if (client) {
     return client;
   }
@@ -16,6 +17,7 @@ export function getRedisClient(): RedisClient {
     lazyConnect: false,
     maxRetriesPerRequest: 3,
     enableReadyCheck: true,
+    // Apply bounded backoff to avoid aggressive reconnect loops.
     retryStrategy: (times: number): number => Math.min(times * 200, 2000),
   });
 
@@ -27,6 +29,7 @@ export function getRedisClient(): RedisClient {
 }
 
 export async function closeRedis(): Promise<void> {
+  // Release connection gracefully so pending commands can flush.
   if (client) {
     await client.quit();
     client = null;

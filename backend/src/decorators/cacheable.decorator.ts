@@ -17,6 +17,7 @@ export function Cacheable(prefix: string, ttlSeconds?: number): MethodDecorator 
       if (!this.cache) {
         return original.apply(this, args);
       }
+      // Build deterministic cache key from method arguments.
       const key = `${prefix}:${stableHash(args)}`;
       const cached = await this.cache.get<unknown>(key);
       if (cached !== null) {

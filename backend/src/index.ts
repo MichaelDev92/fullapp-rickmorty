@@ -11,6 +11,7 @@ import { registerDeps } from './container/registerDeps';
 import { startCronJobs } from './cron';
 
 async function bootstrap(): Promise<void> {
+  // Initialize infra dependencies before serving requests.
   await connectDatabase();
   getRedisClient();
   registerDeps();
@@ -25,6 +26,7 @@ async function bootstrap(): Promise<void> {
 
   startCronJobs();
 
+  // Close HTTP and Redis gracefully when process receives termination signals.
   const shutdown = async (signal: string): Promise<void> => {
     logger.warn({ signal }, 'shutting down');
     server.close(() => logger.info('HTTP server closed'));

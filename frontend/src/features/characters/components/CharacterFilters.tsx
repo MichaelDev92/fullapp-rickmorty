@@ -15,6 +15,7 @@ interface ChipGroupProps<T extends string> {
 }
 
 function ChipGroup<T extends string>({ label, options, value, onChange }: ChipGroupProps<T>) {
+  // Reusable filter chip renderer shared by status/species/gender groups.
   return (
     <div className="flex flex-col gap-2">
       <span className="text-xs font-medium uppercase tracking-wider text-[var(--color-text-muted)]">

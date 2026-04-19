@@ -27,6 +27,7 @@ const STATUS_VALUES: readonly CharacterStatus[] = ['Alive', 'Dead', 'unknown'];
 const GENDER_VALUES: readonly CharacterGender[] = ['Female', 'Male', 'Genderless', 'unknown'];
 
 function normalizeStatus(raw: string): CharacterStatus {
+  // Guard enum values coming from external API to keep DB constraints valid.
   return (STATUS_VALUES as readonly string[]).includes(raw) ? (raw as CharacterStatus) : 'unknown';
 }
 

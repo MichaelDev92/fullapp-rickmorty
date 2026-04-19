@@ -6,6 +6,7 @@ export function useMediaQuery(query: string): boolean {
   );
 
   useEffect(() => {
+    // Subscribe to media query changes to keep responsive UI reactive.
     const mql = window.matchMedia(query);
     const handler = (e: MediaQueryListEvent): void => setMatches(e.matches);
     setMatches(mql.matches);

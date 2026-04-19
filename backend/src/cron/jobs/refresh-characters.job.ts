@@ -15,6 +15,7 @@ export async function runRefreshCharactersJob(): Promise<void> {
 
   logger.info('starting refresh');
   try {
+    // Pull latest catalog, upsert local records, then clear list caches.
     const apiCharacters = await api.fetchAll();
     const payload = apiCharacters.map((c) => CharacterMapper.fromApiToModelData(c));
     const count = await repo.bulkUpsert(payload);

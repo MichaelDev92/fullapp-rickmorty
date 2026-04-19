@@ -21,6 +21,7 @@ export function useCharacter(id: string | undefined): UseCharacterResult {
   const sessionId = getOrCreateSessionId();
   const { data, loading, error, refetch } = useQuery<CharacterQueryData>(CHARACTER_QUERY, {
     variables: { id, sessionId },
+    // Prevent unnecessary network call until route param is available.
     skip: !id,
     fetchPolicy: 'cache-and-network',
   });

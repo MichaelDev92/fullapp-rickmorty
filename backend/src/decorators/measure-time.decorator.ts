@@ -10,6 +10,7 @@ export function MeasureTime(label?: string): MethodDecorator {
     const name = label ?? String(propertyKey);
 
     descriptor.value = async function (...args: unknown[]): Promise<unknown> {
+      // Measure end-to-end execution even when method throws.
       const start = process.hrtime.bigint();
       try {
         const result = await original.apply(this, args);

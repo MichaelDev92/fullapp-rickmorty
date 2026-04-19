@@ -39,6 +39,7 @@ export function useFavorites(): UseFavoritesResult {
     backendId,
     currentIsFavorite,
   }: ToggleArgs): Promise<boolean> => {
+    // Optimistically update favorite state for immediate UI feedback.
     const nextIsFavorite = !currentIsFavorite;
 
     const { data } = await mutate({
@@ -51,6 +52,7 @@ export function useFavorites(): UseFavoritesResult {
         },
       },
       update: (cache, result) => {
+        // Keep Apollo cache in sync without full list refetch.
         const next = result.data?.toggleFavorite.isFavorite ?? nextIsFavorite;
         cache.updateFragment(
           {

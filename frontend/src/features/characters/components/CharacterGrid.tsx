@@ -25,6 +25,7 @@ export function CharacterGrid({
   const { scope, search } = useCharactersStore();
 
   const { starred, others } = useMemo(() => {
+    // Split data by favorite state after applying local search filter.
     const q = search.trim().toLowerCase();
     const matches = (c: Character): boolean =>
       q.length === 0 || c.name.toLowerCase().includes(q) || c.species.toLowerCase().includes(q);

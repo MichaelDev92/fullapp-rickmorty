@@ -28,6 +28,7 @@ function HorizontalSection({
   onSelect?: (id: string) => void;
   onToggleFavorite?: (cacheId: string, backendId: number, currentIsFavorite: boolean) => void;
 }) {
+  // Hide empty sections to keep horizontal layout compact.
   if (items.length === 0) return null;
   return (
     <section className="flex flex-col gap-3">
@@ -63,6 +64,7 @@ export function CharacterHorizontalGrid({
   const { scope, search } = useCharactersStore();
 
   const { starred, others } = useMemo(() => {
+    // Reuse same search + partition strategy as vertical grid.
     const q = search.trim().toLowerCase();
     const matches = (c: Character): boolean =>
       q.length === 0 || c.name.toLowerCase().includes(q) || c.species.toLowerCase().includes(q);

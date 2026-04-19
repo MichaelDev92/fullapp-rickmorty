@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 export type Orientation = 'portrait' | 'landscape';
 
 function readOrientation(): Orientation {
+  // Provide SSR-safe default and compute client orientation when browser is available.
   if (typeof window === 'undefined') return 'portrait';
   return window.matchMedia('(orientation: landscape)').matches ? 'landscape' : 'portrait';
 }

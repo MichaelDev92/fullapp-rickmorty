@@ -13,6 +13,7 @@ import { requestLoggerMiddleware } from './middlewares/request-logger.middleware
 import type { GraphQLContext } from './types/graphql-context';
 
 export async function buildApp(): Promise<Application> {
+  // Build express app with shared middleware and GraphQL endpoint wiring.
   const app = express();
 
   app.use(requestIdMiddleware);
@@ -27,12 +28,14 @@ export async function buildApp(): Promise<Application> {
   const apollo = new ApolloServer<GraphQLContext>({
     schema: buildSchema(),
     introspection: env.NODE_ENV !== 'production',
+    // Log GraphQL errors with request metadata while returning safe formatted output.
     formatError: (formatted, error) => {
       logger.error({ err: error, path: formatted.path }, 'GraphQL error');
       return formatted;
     },
     plugins: [
       {
+        // Measure total request time per GraphQL operation for observability.
         async requestDidStart() {
           const start = Date.now();
           return {

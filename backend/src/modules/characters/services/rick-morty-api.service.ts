@@ -34,6 +34,7 @@ export class RickMortyApiService {
 
   @MeasureTime('RickMortyApiService.fetchFirstN')
   async fetchFirstN(n: number): Promise<RickMortyApiCharacter[]> {
+    // Traverse paginated upstream API until collecting requested amount.
     const items: RickMortyApiCharacter[] = [];
     let page = 1;
     while (items.length < n) {
@@ -49,6 +50,7 @@ export class RickMortyApiService {
 
   @MeasureTime('RickMortyApiService.fetchAll')
   async fetchAll(): Promise<RickMortyApiCharacter[]> {
+    // Full sync used by cron to refresh local catalog.
     const items: RickMortyApiCharacter[] = [];
     let page = 1;
     while (true) {

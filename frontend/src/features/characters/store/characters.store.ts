@@ -19,6 +19,7 @@ interface CharactersUiState {
 }
 
 function stripUndefined(obj: CharacterFilter): CharacterFilter {
+  // Remove empty values so query variables only include active filters.
   const next: CharacterFilter = {};
   (Object.keys(obj) as Array<keyof CharacterFilter>).forEach((key) => {
     const value = obj[key];

@@ -39,6 +39,7 @@ export function CharacterDetailPage() {
   };
 
   if (loading && !character) {
+    // Keep layout stable during first fetch using skeleton placeholders.
     return (
       <div className="flex flex-col">
         <MobileBackButton onBack={handleBack} />
@@ -71,6 +72,7 @@ export function CharacterDetailPage() {
   };
 
   const handleSoftDelete = async (): Promise<void> => {
+    // After soft delete, return to list to avoid stale detail route.
     await softDelete({ variables: { id: character.id } });
     navigate('/characters');
   };

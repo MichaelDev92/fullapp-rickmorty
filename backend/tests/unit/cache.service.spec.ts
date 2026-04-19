@@ -5,6 +5,7 @@ import type { Redis as RedisClient } from 'ioredis';
 import { CacheService } from '../../src/cache/cache.service';
 
 function makeLogger(): Logger {
+  // Minimal logger stub to isolate cache behavior from logging side effects.
   return {
     warn: vi.fn(),
     error: vi.fn(),

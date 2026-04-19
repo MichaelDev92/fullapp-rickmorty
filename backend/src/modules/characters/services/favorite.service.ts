@@ -25,6 +25,7 @@ export class FavoriteService implements IFavoriteService {
   async toggle(
     input: ToggleFavoriteDto
   ): Promise<{ isFavorite: boolean; characterId: number }> {
+    // Toggle favorite atomically and invalidate list cache to refresh favorite state.
     const character = await this.characterRepo.findById(input.characterId);
     if (!character) {
       throw new Error(`Character ${input.characterId} not found`);

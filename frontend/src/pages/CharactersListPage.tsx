@@ -18,6 +18,7 @@ export function CharactersListPage() {
 
   const Layout = layoutRegistry[orientation];
 
+  // Route selection through URL param so detail page stays shareable.
   const handleSelect = (id: string): void => {
     navigate(`/characters/${id}`);
   };
