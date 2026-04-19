@@ -31,9 +31,10 @@ export function CharacterDetailDialog({ id, open, onClose }: CharacterDetailDial
 
   const handleToggle = async (): Promise<void> => {
     if (!character) return;
+    const characterId = Number(character.id);
     await toggle({
       cacheId: character.id,
-      backendId: character.externalId,
+      backendId: Number.isNaN(characterId) ? character.externalId : characterId,
       currentIsFavorite: character.isFavorite,
     });
   };
@@ -88,7 +89,7 @@ export function CharacterDetailDialog({ id, open, onClose }: CharacterDetailDial
               onClick={handleToggle}
               aria-label={character.isFavorite ? 'Unmark favorite' : 'Mark as favorite'}
               aria-pressed={character.isFavorite}
-              className="rounded-full p-2 transition hover:bg-[var(--color-primary-soft-bg)]"
+              className="cursor-pointer rounded-full p-2 transition hover:bg-[var(--color-primary-soft-bg)]"
             >
               <Heart
                 className={cn(

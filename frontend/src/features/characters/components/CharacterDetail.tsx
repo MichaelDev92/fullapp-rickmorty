@@ -41,9 +41,10 @@ export function CharacterDetail({
         <div className="flex flex-1 items-center justify-between">
           <h2 className="text-xl font-bold text-[var(--color-text)]">{character.name}</h2>
           <button
+            type="button"
             onClick={onToggleFavorite}
             aria-label={character.isFavorite ? 'Unmark favorite' : 'Mark as favorite'}
-            className="rounded p-2 transition hover:bg-[var(--color-primary-soft-bg)]"
+            className="cursor-pointer rounded p-2 transition hover:bg-[var(--color-primary-soft-bg)]"
           >
             <Heart
               className={cn(

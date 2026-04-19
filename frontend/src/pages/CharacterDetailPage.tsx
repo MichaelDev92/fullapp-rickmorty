@@ -64,9 +64,10 @@ export function CharacterDetailPage() {
   }
 
   const handleToggle = async (): Promise<void> => {
+    const characterId = Number(character.id);
     await toggle({
       cacheId: character.id,
-      backendId: character.externalId,
+      backendId: Number.isNaN(characterId) ? character.externalId : characterId,
       currentIsFavorite: character.isFavorite,
     });
   };

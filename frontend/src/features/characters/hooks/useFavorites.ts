@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client/react';
-import { gql } from '@apollo/client';
 
 import { getOrCreateSessionId } from '../../../shared/lib/utils/session';
+import { CHARACTER_QUERY, CHARACTERS_QUERY } from '../graphql/characters.query';
 import { TOGGLE_FAVORITE_MUTATION } from '../graphql/toggleFavorite.mutation';
 
 interface ToggleFavoriteData {
@@ -22,13 +22,6 @@ interface UseFavoritesResult {
   toggle: (args: ToggleArgs) => Promise<boolean>;
   loading: boolean;
 }
-
-const CHARACTER_FAVORITE_FRAGMENT = gql`
-  fragment CharacterFavoriteState on Character {
-    id
-    isFavorite(sessionId: $sessionId)
-  }
-`;
 
 export function useFavorites(): UseFavoritesResult {
   const sessionId = getOrCreateSessionId();
@@ -54,16 +47,14 @@ export function useFavorites(): UseFavoritesResult {
       update: (cache, result) => {
         // Keep Apollo cache in sync without full list refetch.
         const next = result.data?.toggleFavorite.isFavorite ?? nextIsFavorite;
-        cache.updateFragment(
-          {
-            id: `Character:${cacheId}`,
-            fragment: CHARACTER_FAVORITE_FRAGMENT,
-            variables: { sessionId },
+        cache.modify({
+          id: `Character:${cacheId}`,
+          fields: {
+            isFavorite: () => next,
           },
-          (existing: { id: string; isFavorite: boolean } | null) =>
-            existing ? { ...existing, isFavorite: next } : existing
-        );
+        });
       },
+      refetchQueries: [CHARACTERS_QUERY, CHARACTER_QUERY],
     });
 
     return data?.toggleFavorite.isFavorite ?? nextIsFavorite;

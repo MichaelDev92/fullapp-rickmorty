@@ -30,7 +30,12 @@ export function CharacterCard({
 
   const handleFavorite = (e: MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
-    onToggleFavorite?.(character.id, character.externalId, character.isFavorite);
+    const characterId = Number(character.id);
+    onToggleFavorite?.(
+      character.id,
+      Number.isNaN(characterId) ? character.externalId : characterId,
+      character.isFavorite
+    );
   };
 
   return (
@@ -70,7 +75,7 @@ export function CharacterCard({
         onClick={handleFavorite}
         aria-label={character.isFavorite ? 'Unmark favorite' : 'Mark as favorite'}
         aria-pressed={character.isFavorite}
-        className="flex-shrink-0 rounded p-1 transition hover:bg-[var(--color-surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ring)]"
+        className="cursor-pointer flex-shrink-0 rounded p-1 transition hover:bg-[var(--color-surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ring)]"
       >
         <Heart
           className={cn(

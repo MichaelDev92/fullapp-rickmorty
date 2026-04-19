@@ -36,7 +36,12 @@ export function CharacterCardLarge({
 
   const handleFavorite = (e: MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
-    onToggleFavorite?.(character.id, character.externalId, character.isFavorite);
+    const characterId = Number(character.id);
+    onToggleFavorite?.(
+      character.id,
+      Number.isNaN(characterId) ? character.externalId : characterId,
+      character.isFavorite
+    );
   };
 
   const status = STATUS_STYLES[character.status];
@@ -67,11 +72,11 @@ export function CharacterCardLarge({
         ) : null}
         <button
           type="button"
-          onClick={handleFavorite}
-          aria-label={character.isFavorite ? 'Unmark favorite' : 'Mark as favorite'}
-          aria-pressed={character.isFavorite}
-          className="absolute right-2 top-2 rounded-full bg-black/40 p-2 backdrop-blur-sm transition hover:bg-black/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ring)]"
-        >
+        onClick={handleFavorite}
+        aria-label={character.isFavorite ? 'Unmark favorite' : 'Mark as favorite'}
+        aria-pressed={character.isFavorite}
+        className="absolute right-2 top-2 cursor-pointer rounded-full bg-black/40 p-2 backdrop-blur-sm transition hover:bg-black/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ring)]"
+      >
           <Heart
             className={cn(
               'h-5 w-5 transition',
